@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696915250131",
+    "project_id": "koren-app-f056c",
+    "storage_bucket": "koren-app-f056c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696915250131:android:79d450f28e806541d97d26",
+        "android_client_info": {
+          "package_name": "com.example.koren_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHEyupvv2CnJJi_QjLBmWJhCk7mlvdflQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
