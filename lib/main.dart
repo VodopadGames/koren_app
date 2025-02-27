@@ -124,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             buildSlider('Температура', temperature, 0, 50, Icons.thermostat, (value) {
               setState(() {
