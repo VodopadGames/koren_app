@@ -26,6 +26,11 @@ class CustomSlider extends StatefulWidget {
 class CustomSliderState extends State<CustomSlider> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width; 
+    double sliderWidth = screenWidth * 0.92; // % от ширината на екрана
+    double filledWidth = ((widget.value - widget.min) / (widget.max - widget.min)) * (sliderWidth - 50) + 50;
+    double textPosition = ((widget.value - widget.min) / (widget.max - widget.min)) * (sliderWidth - 110) + 15;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -36,7 +41,7 @@ class CustomSliderState extends State<CustomSlider> {
             alignment: Alignment.centerLeft,
             children: [
               Container(
-                width: 360,
+                width: sliderWidth,
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFF2C4425),
@@ -44,7 +49,7 @@ class CustomSliderState extends State<CustomSlider> {
                 ),
               ),
               Container(
-                width: ((widget.value - widget.min) / (widget.max - widget.min)) * 310 + 50,
+                width: filledWidth,
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFFC1A24C),
@@ -75,7 +80,7 @@ class CustomSliderState extends State<CustomSlider> {
                 ),
               ),
               Positioned(
-                left: ((widget.value - widget.min) / (widget.max - widget.min)) * 250 + 15,
+                left: textPosition,
                 child: Text(
                   widget.value >= 10 
                   ? "${widget.value.toInt()}${widget.showPercentage ? '%' : '°'}" 
