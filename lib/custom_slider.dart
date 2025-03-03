@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomSlider extends StatefulWidget {
   final double value;
   final double min;
   final double max;
-  final IconData icon;
+  final String iconPic;
+  final bool showPercentage;
   final ValueChanged<double> onChanged;
 
   const CustomSlider({
-    Key? key,
+    super.key,
     required this.value,
     required this.min,
     required this.max,
-    required this.icon,
+    required this.iconPic,
+    required this.showPercentage,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
-  _CustomSliderState createState() => _CustomSliderState();
+  CustomSliderState createState() => CustomSliderState();
 }
 
-class _CustomSliderState extends State<CustomSlider> {
+class CustomSliderState extends State<CustomSlider> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,37 +40,50 @@ class _CustomSliderState extends State<CustomSlider> {
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFF2C4425),
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
               Container(
-                width: ((widget.value - widget.min) / (widget.max - widget.min)) * 230 + 50,
+                width: ((widget.value - widget.min) / (widget.max - widget.min)) * 310 + 50,
                 height: 60,
                 decoration: BoxDecoration(
                   color: Color(0xFFC1A24C),
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
               Positioned(
-                left: 5,
+                left: 0,
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: 60,
+                  height: 60,
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 214, 233, 203),
+                    color: Color(0xFFC1A24C),
                     shape: BoxShape.circle,
-                    border: Border.all(color: Color(0xFF2C4425), width: 3),
+                    border: Border.all(color: Color(0xFF2C4425), width: 4),
                   ),
-                  child: Icon(widget.icon, color: Color(0xFF2C4425), size: 25),
+                  child: Center(
+                    child: SizedBox( 
+                      width: 40, 
+                      height: 40, 
+                      child: SvgPicture.asset(
+                        widget.iconPic,
+                        fit: BoxFit.contain,
+                        colorFilter: ColorFilter.mode(Color(0xFF2C4425), BlendMode.srcIn),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Positioned(
                 left: ((widget.value - widget.min) / (widget.max - widget.min)) * 250 + 15,
                 child: Text(
-                  "${widget.value.toInt()}°",
+                  widget.value >= 10 
+                  ? "${widget.value.toInt()}${widget.showPercentage ? '%' : '°'}" 
+                  : "",
                   style: TextStyle(
+                    fontFamily: 'Montserrat',
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

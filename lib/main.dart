@@ -93,49 +93,49 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CustomSlider(
-              value: temperature,
-              min: 0,
-              max: 100,
-              icon: Icons.thermostat,
-              onChanged: (value) {
-                setState(() {
-                  temperature = value;
-                });
-              },
-            ),
-            SizedBox(height: 10,),
-            CustomSlider(
-              value: humidity,
-              min: 0,
-              max: 100,
-              icon: Icons.thermostat,
-              onChanged: (value) {
-                setState(() {
-                  humidity = value;
-                });
-              },
-            ),
-            SizedBox(height: 10,),
-            CustomSlider(
-              value: light,
-              min: 0,
-              max: 100,
-              icon: Icons.thermostat,
-              onChanged: (value) {
-                setState(() {
-                  light = value;
-                });
-              },
-            ),
-            SizedBox(height: 20,),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          CustomSlider(
+            value: temperature,
+            min: 0,
+            max: 50,
+            iconPic: "assets/icons/thermostat.svg",
+            showPercentage: false,
+            onChanged: (value) {
+              setState(() {
+                temperature = value;
+              });
+            },
+          ),
+          SizedBox(height: 10,),
+          CustomSlider(
+            value: humidity,
+            min: 0,
+            max: 100,
+            iconPic: "assets/icons/mist.svg",
+            showPercentage: true,
+            onChanged: (value) {
+              setState(() {
+                humidity = value;
+              });
+            },
+          ),
+          SizedBox(height: 10,),
+          CustomSlider(
+            value: light,
+            min: 0,
+            max: 100,
+            iconPic: "assets/icons/light.svg",
+            showPercentage: true,
+            onChanged: (value) {
+              setState(() {
+                light = value;
+              });
+            },
+          ),
+          SizedBox(height: 20,),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
