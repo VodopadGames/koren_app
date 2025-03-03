@@ -30,6 +30,7 @@ class CustomSliderState extends State<CustomSlider> {
     double sliderWidth = screenWidth * 0.92; // % от ширината на екрана
     double filledWidth = ((widget.value - widget.min) / (widget.max - widget.min)) * (sliderWidth - 50) + 50;
     double textPosition = ((widget.value - widget.min) / (widget.max - widget.min)) * (sliderWidth - 110) + 15;
+    double sliderHeight = 50;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +43,7 @@ class CustomSliderState extends State<CustomSlider> {
             children: [
               Container(
                 width: sliderWidth,
-                height: 60,
+                height: sliderHeight,
                 decoration: BoxDecoration(
                   color: Color(0xFF2C4425),
                   borderRadius: BorderRadius.circular(30),
@@ -50,7 +51,7 @@ class CustomSliderState extends State<CustomSlider> {
               ),
               Container(
                 width: filledWidth,
-                height: 60,
+                height: sliderHeight,
                 decoration: BoxDecoration(
                   color: Color(0xFFC1A24C),
                   borderRadius: BorderRadius.circular(30),
@@ -59,8 +60,8 @@ class CustomSliderState extends State<CustomSlider> {
               Positioned(
                 left: 0,
                 child: Container(
-                  width: 60,
-                  height: 60,
+                  width: sliderHeight,
+                  height: sliderHeight,
                   decoration: BoxDecoration(
                     color: Color(0xFFC1A24C),
                     shape: BoxShape.circle,
@@ -68,8 +69,8 @@ class CustomSliderState extends State<CustomSlider> {
                   ),
                   child: Center(
                     child: SizedBox( 
-                      width: 40, 
-                      height: 40, 
+                      width: sliderHeight - 20, 
+                      height: sliderHeight - 20, 
                       child: SvgPicture.asset(
                         widget.iconPic,
                         fit: BoxFit.contain,
@@ -88,7 +89,7 @@ class CustomSliderState extends State<CustomSlider> {
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

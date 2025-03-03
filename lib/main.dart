@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black,
               fontFamily: "Montserat",
               fontWeight: FontWeight.bold,
-              fontSize: 32,
+              fontSize: 28,
             ),
           ),
           centerTitle: true,
