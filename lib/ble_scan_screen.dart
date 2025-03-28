@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 class BLEScanScreen extends StatefulWidget {
   const BLEScanScreen({super.key});
@@ -19,15 +21,28 @@ class _BLEScanScreenState extends State<BLEScanScreen> {
     startScan();
   }
 
-  void startScan() {
+  Future<void> requestBLEPermissions() async {
+    if (await Permission.bluetoothScan.request().isGranted &&
+        await Permission.bluetoothConnect.request().isGranted) {
+      print("Bluetooth permissions granted!");
+    } 
+    else {
+      print("Bluetooth permissions denied!");
+    }
+  }
+
+  void startScan() async{
+    await requestBLEPermissions();  // Request permissions
     setState(() {
       scanResults.clear();
       isScanning = true;
     });
 
+    
     FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
 
     FlutterBluePlus.scanResults.listen((results) {
+      print('Found devices: ${results.length}'); // Добавете този ред
       setState(() {
         scanResults = results;
       });
