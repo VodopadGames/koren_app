@@ -37,6 +37,8 @@ dependencies:
   firebase_core: ^3.12.1
   flutter_svg: ^2.0.17
   vector_graphics: ^1.1.18
+  #ble implementation
+  flutter_blue_plus: ^1.35.3
 
 dev_dependencies:
   flutter_test:

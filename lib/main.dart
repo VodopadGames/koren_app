@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'custom_slider.dart';
-
+import 'ble_connect_screen.dart';
 
 
 void main() async {
@@ -22,12 +22,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Koren',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        scaffoldBackgroundColor: Colors.black, // Черен фон за целия екран
+        //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        //scaffoldBackgroundColor: Colors.black, // Черен фон за целия екран
+        scaffoldBackgroundColor: Colors.black,
       ),
       
-      debugShowCheckedModeBanner: true,
-      home: const MyHomePage(title: 'Koren App Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: const BLEConnectScreen(),//MyHomePage(title: 'Koren App Home Page'),
     );
   }
 }
