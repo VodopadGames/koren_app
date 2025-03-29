@@ -38,7 +38,7 @@ dependencies:
   flutter_svg: ^2.0.17
   vector_graphics: ^1.1.18
   #ble implementation
-  flutter_blue_plus: ^1.35.3
+  flutter_reactive_ble: ^5.4.0
   permission_handler: ^11.4.0
 
 dev_dependencies:

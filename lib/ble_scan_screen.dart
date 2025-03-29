@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 
 class BLEScanScreen extends StatefulWidget {
   const BLEScanScreen({super.key});
@@ -11,8 +10,8 @@ class BLEScanScreen extends StatefulWidget {
 }
 
 class _BLEScanScreenState extends State<BLEScanScreen> {
-  final FlutterBluePlus flutterBlue = FlutterBluePlus();
-  List<ScanResult> scanResults = [];
+  final FlutterReactiveBle flutterReactiveBle = FlutterReactiveBle();
+  List<DiscoveredDevice> scanResults = [];
   bool isScanning = false;
 
   @override
@@ -25,41 +24,29 @@ class _BLEScanScreenState extends State<BLEScanScreen> {
     if (await Permission.bluetoothScan.request().isGranted &&
         await Permission.bluetoothConnect.request().isGranted) {
       print("Bluetooth permissions granted!");
-    } 
-    else {
+    } else {
       print("Bluetooth permissions denied!");
     }
   }
 
-  void startScan() async{
-    await requestBLEPermissions();  // Request permissions
+  void startScan() async {
+    await requestBLEPermissions();
     setState(() {
       scanResults.clear();
       isScanning = true;
     });
 
-    
-    FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
-
-    FlutterBluePlus.scanResults.listen((results) {
-      print('Found devices: ${results.length}'); // Добавете този ред
+    flutterReactiveBle.scanForDevices(withServices: []).listen((device) {
       setState(() {
-        scanResults = results;
+        if (!scanResults.any((d) => d.id == device.id)) {
+          scanResults.add(device);
+        }
       });
-    });
-
-    Future.delayed(const Duration(seconds: 5), () {
+    }, onDone: () {
       setState(() {
         isScanning = false;
       });
     });
-  }
-
-  void connectToDevice(BluetoothDevice device) async {
-    await device.connect();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Connected to ${device.name}")),
-    );
   }
 
   @override
@@ -77,14 +64,10 @@ class _BLEScanScreenState extends State<BLEScanScreen> {
                 : ListView.builder(
                     itemCount: scanResults.length,
                     itemBuilder: (context, index) {
-                      final device = scanResults[index].device;
+                      final device = scanResults[index];
                       return ListTile(
                         title: Text(device.name.isNotEmpty ? device.name : "Unknown Device"),
-                        subtitle: Text(device.id.toString()),
-                        trailing: ElevatedButton(
-                          onPressed: () => connectToDevice(device),
-                          child: const Text("Connect"),
-                        ),
+                        subtitle: Text(device.id),
                       );
                     },
                   ),
