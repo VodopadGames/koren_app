@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ble_scan_screen.dart'; // Import the scan screen
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'my_home_page.dart';
 
 
 class BLEConnectScreen extends StatelessWidget {
@@ -37,31 +38,44 @@ class BLEConnectScreen extends StatelessWidget {
         children: [
           const Spacer(),
           connectedDevice != null
-            ? Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.lightBlue[100],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      connectedDevice!.name.isNotEmpty ? connectedDevice!.name : "Unknown Device",
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+            ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyHomePage(
+                          title: 'Device Connected',
+                          connectedDevice: connectedDevice!,
+                        ),
                       ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue[100],
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      connectedDevice!.id,
-                      style: const TextStyle(color: Colors.black),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          connectedDevice!.name.isNotEmpty ? connectedDevice!.name : "Unknown Device",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          connectedDevice!.id,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
+                  ),
+            )
             : const Center(
                 child: Text(
                   "Изглежда нямаш устройства. Добави ново от иконата долу вляво.",
