@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'ble_connect_screen.dart';
+
 
 class BLEScanScreen extends StatefulWidget {
   const BLEScanScreen({super.key});
@@ -33,25 +35,31 @@ class _BLEScanScreenState extends State<BLEScanScreen> {
 
   void startScan() async {
     await requestBLEPermissions();
-    setState(() {
-      scanResults.clear();
-      isScanning = true;
-    });
+    if (mounted) {
+      setState(() {
+        scanResults.clear();
+        isScanning = true;
+      });
+    }
 
     scanSubscription?.cancel();
     scanSubscription = flutterReactiveBle.scanForDevices(withServices: []).listen((device) {
-      setState(() {
-        if (!scanResults.any((d) => d.id == device.id)) {
-          scanResults.add(device);
-        }
-      });
+      if (mounted) {
+        setState(() {
+          if (!scanResults.any((d) => d.id == device.id)) {
+            scanResults.add(device);
+          }
+        });
+      }
     });
 
     Timer(const Duration(seconds: 13), () {
       scanSubscription?.cancel();
-      setState(() {
-        isScanning = false;
-      });
+      if (mounted) {
+        setState(() {
+          isScanning = false;
+        });
+      }
     });
   }
 
@@ -70,7 +78,14 @@ class _BLEScanScreenState extends State<BLEScanScreen> {
             content: Text('Connected to ${device.name}'),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => 
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BLEConnectScreen(connectedDevice: device),
+                    ),
+                    (Route<dynamic> route) => false,
+                  ),
                 child: const Text('OK'),
               ),
             ],

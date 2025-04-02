@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'ble_scan_screen.dart'; // Import the scan screen
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
 
 class BLEConnectScreen extends StatelessWidget {
-  const BLEConnectScreen({super.key});
+  final DiscoveredDevice? connectedDevice;
+
+  const BLEConnectScreen({super.key, this.connectedDevice});
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +36,43 @@ class BLEConnectScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
-          const Center(
-            child: Text(
-              "Изглежда нямаш устройства. Добави ново от иконата долу вляво.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+          connectedDevice != null
+            ? Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue[100],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      connectedDevice!.name.isNotEmpty ? connectedDevice!.name : "Unknown Device",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      connectedDevice!.id,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              )
+            : const Center(
+                child: Text(
+                  "Изглежда нямаш устройства. Добави ново от иконата долу вляво.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
           const SizedBox(height: 20),
           const Icon(
             Icons.arrow_downward,
