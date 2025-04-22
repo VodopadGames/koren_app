@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'custom_slider.dart';
+import 'plants.dart';
 
 
 
@@ -122,6 +123,72 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PlantsPage()),
+              );
+            },
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double screenWidth = MediaQuery.of(context).size.width;
+                double iconBoxSize = screenWidth * 0.40;
+                double iconSize = screenWidth * 0.38;
+                double fontSize = screenWidth * 0.09; // 6% от ширината
+                double arrowSize = screenWidth * 0.19; // 10% от ширината
+                double squareSize = screenWidth * 0.9; // например 60% от ширината
+
+                return Container(
+                  width: squareSize,
+                  height: squareSize,
+                  margin: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF44633F),
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: squareSize * 0.15,   // например 10% от височината
+                      horizontal: squareSize * 0.05, // 5% от ширината
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.arrow_left, color: Colors.white, size: arrowSize),
+                            Container(
+                              width: iconBoxSize,
+                              height: iconBoxSize,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFC2A73E),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Center(
+                                child: Icon(Icons.eco, color: const Color(0xFF44633F), size: iconSize),
+                              ),
+                            ),
+                            Icon(Icons.arrow_right, color: const Color.fromARGB(255, 255, 255, 255), size: arrowSize),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          "Мента",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: fontSize,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
           CustomSlider(
             value: temperature,
             min: 0,
