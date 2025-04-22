@@ -3,6 +3,7 @@ import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'custom_slider.dart';
 
 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.connectedDevice});
 
@@ -25,7 +26,27 @@ class _MyHomePageState extends State<MyHomePage> {
     _subscribeToBLEData();
   }
 
-  void _subscribeToBLEData() {
+  Future<void> debugServices(String deviceId) async {
+    try {
+      await flutterReactiveBle.discoverAllServices(deviceId); // Не е задължително, но може да помогне
+      
+      final List<Service> services = await flutterReactiveBle.getDiscoveredServices(deviceId);
+      final List<DiscoveredService> discoveredServices = services.cast<DiscoveredService>().toList();
+      
+      for (final service in discoveredServices) {
+        print("Service UUID: ${service.serviceId}"); // DiscoveredService -> serviceId
+        for (final char in service.characteristics) {
+          print("  -> Characteristic UUID: ${char.characteristicId} (Service: ${service.serviceId})"); // DiscoveredCharacteristic -> characteristicId
+        }
+      }
+    } catch (e) {
+      print("⚠️ Error discovering services: $e");
+    }
+  }
+
+  void _subscribeToBLEData() async {
+    await debugServices(widget.connectedDevice.id);
+    print("Starting subscription after service discovery...");
     // Temperature
     flutterReactiveBle.subscribeToCharacteristic(QualifiedCharacteristic(
       serviceId: Uuid.parse("12345678-1234-5678-1234-56789abcdef0"), // New Service UUID
