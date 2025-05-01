@@ -20,6 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double temperature = 23;
   double humidity = 50;
   double light = 80;
+  String selectedPlant = "Мента";
 
   @override
   void initState() {
@@ -81,20 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50), // Adjust height if needed
         child: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFFC2A73E), // Gold color
           elevation: 0,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(16), // Curved edges
-            ),
-          ),
-          leading: SizedBox(
-            width: 56, // Ensures larger tap area
-            height: 56,
-            child: IconButton(
-              iconSize: 32, // Bigger icon
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {},
             ),
           ),
           title: const Text(
@@ -124,11 +117,17 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           GestureDetector(
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PlantsPage()),
               );
+
+              if (result != null && result is String) {
+                setState(() {
+                  selectedPlant = result;
+                });
+              }
             },
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -136,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 double iconBoxSize = screenWidth * 0.40;
                 double iconSize = screenWidth * 0.38;
                 double fontSize = screenWidth * 0.09; // 6% от ширината
-                double arrowSize = screenWidth * 0.19; // 10% от ширината
                 double squareSize = screenWidth * 0.9; // например 60% от ширината
+                
 
                 return Container(
                   width: squareSize,
@@ -154,27 +153,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(Icons.arrow_left, color: Colors.white, size: arrowSize),
-                            Container(
-                              width: iconBoxSize,
-                              height: iconBoxSize,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFC2A73E),
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              child: Center(
-                                child: Icon(Icons.eco, color: const Color(0xFF44633F), size: iconSize),
-                              ),
+                        Center(
+                          child: Container(
+                            width: iconBoxSize,
+                            height: iconBoxSize,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFC2A73E),
+                              borderRadius: BorderRadius.circular(24),
                             ),
-                            Icon(Icons.arrow_right, color: const Color.fromARGB(255, 255, 255, 255), size: arrowSize),
-                          ],
+                            child: Center(
+                              child: Icon(Icons.eco, color: const Color(0xFF44633F), size: iconSize),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          "Мента",
+                          selectedPlant,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: fontSize,
@@ -188,31 +182,34 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-
-          CustomSlider(
-            value: temperature,
-            min: 0,
-            max: 50,
-            iconPic: "assets/icons/thermostat.svg",
-            showPercentage: false,
-            onChanged: (value) {
-              setState(() {
-                temperature = value;
-              });
-            },
+          AbsorbPointer(
+            child: CustomSlider(
+              value: temperature,
+              min: 0,
+              max: 50,
+              iconPic: "assets/icons/thermostat.svg",
+              showPercentage: false,
+              onChanged: (value) {
+                setState(() {
+                  temperature = value;
+                });
+              },
+            ),
           ),
           SizedBox(height: 10,),
-          CustomSlider(
-            value: humidity,
-            min: 0,
-            max: 100,
-            iconPic: "assets/icons/mist.svg",
-            showPercentage: true,
-            onChanged: (value) {
-              setState(() {
-                humidity = value;
-              });
-            },
+          AbsorbPointer(
+            child: CustomSlider(
+              value: humidity,
+              min: 0,
+              max: 100,
+              iconPic: "assets/icons/mist.svg",
+              showPercentage: true,
+              onChanged: (value) {
+                setState(() {
+                  humidity = value;
+                });
+              },
+            ),
           ),
           SizedBox(height: 10,),
           CustomSlider(
